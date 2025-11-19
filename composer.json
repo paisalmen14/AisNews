@@ -1,0 +1,18 @@
+{
+    "name": "faisal/aisnews",
+    "description": "Website berita AisNews",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Faisal\\Aisnews\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Faisal",
+            "email": "paisalmen123@gmail.com"
+        }
+    ],
+    "require": {}
+}
