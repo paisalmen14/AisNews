@@ -10,7 +10,7 @@
 
  <!-- Berita -->
     <div class=" flex flex-col gap-5 px-4 lg:px-14">
-      <div class="grid sm:grid-cols-1 gap-5 lg:grid-cols-4">
+      <div class=" space-y-6 grid sm:grid-cols-1 gap-5 lg:grid-cols-4">
           @foreach ( $news as $item )
         <a href="{{ route('news.show', $item->slug) }}">
           <div
