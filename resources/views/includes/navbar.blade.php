@@ -47,7 +47,7 @@
             <img src="{{ asset('assets/img/search.png') }}" alt="search" class="w-4">
           </span>
         </div>
-        <a href="login.html"
+        <a href="{{ route('filament.admin.auth.login') }}"
           class="bg-primary px-8 py-2 rounded-full text-white font-semibold h-fit text-sm lg:text-base">
           Masuk
         </a>
