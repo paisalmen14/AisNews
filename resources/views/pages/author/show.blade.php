@@ -7,7 +7,7 @@
     <div class="flex gap-4 items-center mb-10 text-white p-10 bg-cover" style="background-image: url('{{ asset('assets/img/bg-profile.png') }}')">
       <img src="{{ asset ('storage/' . $author->avatar)  }}" alt="profile" class="rounded-full max-w-28 ">
       <div class="">
-        <p class="font-bold text-lg">{{ $author->name }}</p>
+        <p class="font-bold text-lg">{{ $author->user->name }}</p>
         <p>{{ $author->bio }}</p>
       </div>
     </div>

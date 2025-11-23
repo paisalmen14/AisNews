@@ -39,7 +39,7 @@
           <p>Berita Unggulan</p>
           <p>Untuk Kamu</p>
         </div>
-        <a href="semuaberita.html"
+        <a href="{{ route('news.index') }}"
           class="bg-primary px-5 py-2 rounded-full text-white font-semibold mt-4 md:mt-0 h-fit">
           Lihat Semua
         </a>
@@ -113,7 +113,7 @@
           <p>Kenali Author</p>
           <p>Terbaik Dari Kami</p>
         </div>
-        <a href="register.html" class="bg-primary px-5 py-2 rounded-full text-white font-semibold mt-4 md:mt-0 h-fit">
+        <a href="/admin/register" class="bg-primary px-5 py-2 rounded-full text-white font-semibold mt-4 md:mt-0 h-fit">
           Gabung Menjadi Author
         </a>
       </div>
@@ -125,7 +125,7 @@
           <div
             class="flex flex-col items-center border border-slate-200 px-4 py-8 rounded-2xl hover:border-primary hover:cursor-pointer">
             <img src="{{ asset ('storage/' . $author->avatar ) }}" alt="" class="rounded-full w-24 h-24 object-cover">
-            <p class="font-bold text-xl mt-4">{{ $author->name }}</p>
+            <p class="font-bold text-xl mt-4">{{ $author->user->name }}</p>
             <p class="text-slate-400"> {{ $author->news->count() }} Berita</p>
           </div>
         </a>

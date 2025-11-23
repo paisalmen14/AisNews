@@ -22,6 +22,13 @@ class NewsCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
 
+     public static function canCreate(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
+
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,8 +54,8 @@ class NewsCategoryResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()->visible(auth()->user()->isAdmin()),
+                Tables\Actions\DeleteAction::make()->visible(auth()->user()->isAdmin()),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -19,12 +19,25 @@ class AuthorResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
+      public static function canCreate(): bool
+    {
+        return auth()->user()->isAdmin();
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required(),
+                     Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->required()
+                    ->searchable()
+                    ->preload(),
                     Forms\Components\TextInput::make('username')
                     ->required(),
                     Forms\Components\FileUpload::make('avatar')
@@ -40,7 +53,7 @@ class AuthorResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar')->circular(),
-                Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('user.name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('username')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('bio')->limit(50),
             ])

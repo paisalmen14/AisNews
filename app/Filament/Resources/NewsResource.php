@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
 use App\Filament\Resources\NewsResource\RelationManagers;
+use App\Models\Author;
 use App\Models\News;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -21,13 +22,39 @@ class NewsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        if (auth()->user()->isAdmin()) {
+            return $query;
+        }
+        return $query->where('author_id', auth()->id());
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('author_id')
-                    ->relationship('author', 'name')
-                    ->required(),
+                    ->relationship('author', 'username')
+                    ->required()
+                    ->options (function () {
+                     $user = auth()->user();
+                        if ($user->isAdmin()) {
+                            return Author::pluck('username', 'id'); 
+                        } else if ($user->author()) {
+                        return [$user->author->id => $user->author->username]; 
+                        }
+                        return [];
+                    })
+                    ->default (function () {
+                        $user = auth()->user();
+                        return $user->author ? $user->author->id : null;
+                    })
+                    ->disabled (function () {
+                        $user = auth()->user();
+                        return !$user->isAdmin();
+                    }),       
                 Forms\Components\Select::make('news_category_id')
                     ->relationship('newsCategory', 'title')
                     ->required(),
@@ -52,7 +79,7 @@ class NewsResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('author.name'),
+                Tables\Columns\TextColumn::make('author.username'),
                 Tables\Columns\TextColumn::make('newsCategory.title'),
                 Tables\Columns\TextColumn::make('title')->sortable(),
                 Tables\Columns\TextColumn::make('slug'),
@@ -61,7 +88,7 @@ class NewsResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('author_id')
-                    ->relationship('author', 'name')
+                    ->relationship('author', 'username')
                     ->label('Select Author'),
                 Tables\Filters\SelectFilter::make('news_category_id')
                     ->relationship('newsCategory', 'title')
